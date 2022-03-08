@@ -1,13 +1,11 @@
 //(ti commento questo codice alle 2:23 dopo due ore di bestemmie sul runtime error "bad_alloc" che hanno portato alla soluzione di un cazzo di niente.
 //detto ciò spero di non essere troppo confusionario, enjoy;) rivolto al dott. Pintus
 
-//dott. Pintus, abbiamo le fratte
-
 
 //il codice è strutturato da tre classi: Point (molto comoda per l'interfaccia grafica), FofX (cioè f di x, è la classe delle funzioni polinomiali)
 //e da Fract (la classe delle funzioniu polinomiali, al momento non utilizzabile ma non per un problema suo), varie freefunction ed il main;
 
-// PER IL MOMENTO STAMPA SOLO LE POLINOMIALI, SI SPERA A BREVE DI AGGIUNGERE LE GONIOMETRICHE;
+// PER IL MOMENTO STAMPA SOLO LE POLINOMIALI, SI SPERA A BREVE DI AGGIUNGERE FRATTE E GONIOMETRICHE;
 
 #include <cmath>
 #include <iostream>
@@ -52,10 +50,6 @@ class Fract{ //classe delle fratte, idea molto basic di rappresentare una fratta
   FofX den;   //sarebbe carino saper implementare l'ereditarietà delle classi, tipo Fract sottoclasse di FofX, ma non ne sono in grado T-T;
   public:
   Fract(const FofX& n, const FofX& d) : num{n}, den{d} {} //costruttore che vuole due funzioni polinomiali;
-
-  double rndt1(double a) {    //funzione bellina che arrotonda un numero alla prima cifra decimale moltiplicando per 10, troncando le cifre decimali e poi ridividendo per 10
-   return std::ceil(a * 10.0) / 10.0;
-  }
   
   double calc(double x){
     //return rndt1((num.calc(x)/den.calc(x)));        //non so perchè, il metodo precedente basato sul richiamare il calc() delle polinomiali che costituiscono la...
@@ -82,6 +76,10 @@ bool operator!=(const Point& a, const Point& b) { // operatore != per i Point;
          a.get_y() != b.get_y();
 }
 
+double rndt1(double a) {    //funzione bellina che arrotonda un numero alla prima cifra decimale moltiplicando per 10, troncando le cifre decimali e poi ridividendo per 10
+  return std::ceil(a * 10.0) / 10.0;
+}
+
 bool condition(Point p, FofX f) {   //allora questa è un po stoppacciosa, ma di base returna vero se il punto passato è approssimabilmente vicino al valore...
   return rndt1(p.get_y()) == rndt1(f.calc(p.get_x())) && ((rndt1(p.get_x()) >= 0.1 ||rndt1(p.get_x()) <= -0.1) && (rndt1(p.get_y()) >= 0.1 || rndt1(p.get_y()) <= -0.1));
 }//... della funzione in quel x e contemporaneamente il punto non è approssimabilmente vicino agli assi cartesiani (questo serve per printare gli assi correttamente);
@@ -102,7 +100,7 @@ auto to_symbol(bool k, const Point& p) {  //la solita funzione trafugata da Jack
 
 auto richiedi_pol(){  //funzione che ti returna un vettore di coefficenti double tramite un ciclo while che va finche non premi ctrl C;
   std::vector<double> vect; //inizialmente gli passavo by reference un vettore dichiarato nel main, ma CREDO sia più efficente cosi;
-  std::cout << "Inserisci i parametri della funzione polinomiale in ordine crescente di esponente (da quello di x^0 in poi), inserisci 's' per convalidare: " << '\n';
+  std::cout << "Inserisci i coefficenti della funzione polinomiale in ordine crescente di esponente (da quello di x^0 in poi), inserisci una lettera quando finito: " << '\n';
   while (true)    //metto il while sempre vero e poi me lo gestisco con continue e break
   {
     double a;
